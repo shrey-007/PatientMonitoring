@@ -275,7 +275,8 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
             if argss[0].num_cams == 1:
                 num_matched, new_num, indxs_unmatched = match_ip(ip_sets[0], kp_frames[0], lstm_sets[0], num_matched, max_length_mat)
                 valid1_idxs, prediction = get_all_features(ip_sets[0], lstm_sets[0], model)
-                dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction+5]}"
+                # dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction+5]}"
+                dict_frames[0]["tagged_df"]["text"] += f" Pred: Shrey"
                 img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 # print(img1.shape)
                 cv2.imshow(window_names[0], img)
@@ -350,8 +351,10 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
 
                 valid1_idxs, prediction1 = get_all_features(ip_sets[0], lstm_sets[0], model)
                 valid2_idxs, prediction2 = get_all_features(ip_sets[1], lstm_sets[1], model)
-                dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction1+5]}"
-                dict_frames[1]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction2+5]}"
+                # dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction1+5]}"
+                dict_frames[0]["tagged_df"]["text"] += f" Pred: Shrey"
+                # dict_frames[1]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction2+5]}"
+                dict_frames[1]["tagged_df"]["text"] += f" Pred: Shrey"
                 img1, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 img2, output_videos[1] = show_tracked_img(dict_frames[1], ip_sets[1], num_matched, output_videos[1], argss[1])
                 # print(img1.shape)
