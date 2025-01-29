@@ -15,7 +15,7 @@ from scipy.signal import savgol_filter, lfilter
 from model.model import LSTMModel
 import torch
 import math
-
+from utils import play_fall_song
 
 def get_source(args):
     tagged_df = None
@@ -277,8 +277,11 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
                 valid1_idxs, prediction = get_all_features(ip_sets[0], lstm_sets[0], model)
                 # dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction+5]}"
                 # dict_frames[0]["tagged_df"]["text"] += f" Pred: Shrey"
-                dict_frames[0]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction+5] == 'FALL' else activity_dict[prediction + 5]}"
-
+                # dict_frames[0]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction+5] == 'FALL' else activity_dict[prediction + 5]}"
+                prediction_text = activity_dict[prediction + 5]
+                dict_frames[0]["tagged_df"]["text"] += f" Pred: {prediction_text}"
+                if prediction_text == "FALL":
+                    play_fall_song("fall_alert.mp3")
                 img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 # print(img1.shape)
                 cv2.imshow(window_names[0], img)
@@ -355,11 +358,19 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
                 valid2_idxs, prediction2 = get_all_features(ip_sets[1], lstm_sets[1], model)
                 # dict_frames[0]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction1+5]}"
                 # dict_frames[0]["tagged_df"]["text"] += f" Pred: Shrey"
-                dict_frames[0]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction1 + 5] == 'FALL' else activity_dict[prediction1 + 5]}"
+                # dict_frames[0]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction1 + 5] == 'FALL' else activity_dict[prediction1 + 5]}"
+                prediction_text = activity_dict[prediction1 + 5]
+                dict_frames[0]["tagged_df"]["text"] += f" Pred: {prediction_text}"
+                if prediction_text == "FALL":
+                    play_fall_song("fall_alert.mp3")
 
                 # dict_frames[1]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction2+5]}"
                 # dict_frames[1]["tagged_df"]["text"] += f" Pred: Shrey"
-                dict_frames[1]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction1 + 5] == 'FALL' else activity_dict[prediction1 + 5]}"
+                # dict_frames[1]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction1 + 5] == 'FALL' else activity_dict[prediction1 + 5]}"
+                prediction_text = activity_dict[prediction1 + 5]
+                dict_frames[1]["tagged_df"]["text"] += f" Pred: {prediction_text}"
+                if prediction_text == "FALL":
+                    play_fall_song("fall_alert.mp3")
 
                 img1, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 img2, output_videos[1] = show_tracked_img(dict_frames[1], ip_sets[1], num_matched, output_videos[1], argss[1])
