@@ -16,6 +16,8 @@ from model.model import LSTMModel
 import torch
 import math
 from utils import play_fall_song
+from redis_client import r
+
 
 def get_source(args):
     tagged_df = None
@@ -281,7 +283,7 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
                 prediction_text = activity_dict[prediction + 5]
                 dict_frames[0]["tagged_df"]["text"] += f" Pred: {prediction_text}"
                 if prediction_text == "FALL":
-                    play_fall_song("fall_alert.mp3")
+                    r.setex('camera_fall', 60*60, int(time.time()))
                 img, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 # print(img1.shape)
                 cv2.imshow(window_names[0], img)
@@ -362,15 +364,15 @@ def alg2_sequential(queues, argss, consecutive_frames, event):
                 prediction_text = activity_dict[prediction1 + 5]
                 dict_frames[0]["tagged_df"]["text"] += f" Pred: {prediction_text}"
                 if prediction_text == "FALL":
-                    play_fall_song("fall_alert.mp3")
+                    r.setex('camera_fall', 60*60, int(time.time()))
 
                 # dict_frames[1]["tagged_df"]["text"] += f" Pred: {activity_dict[prediction2+5]}"
                 # dict_frames[1]["tagged_df"]["text"] += f" Pred: Shrey"
                 # dict_frames[1]["tagged_df"]["text"] += f" Pred: {'Shrey' if activity_dict[prediction1 + 5] == 'FALL' else activity_dict[prediction1 + 5]}"
-                prediction_text = activity_dict[prediction1 + 5]
+                prediction_text = activity_dict[prediction2 + 5]
                 dict_frames[1]["tagged_df"]["text"] += f" Pred: {prediction_text}"
                 if prediction_text == "FALL":
-                    play_fall_song("fall_alert.mp3")
+                    r.setex('camera_fall', 60 * 60, int(time.time()))
 
                 img1, output_videos[0] = show_tracked_img(dict_frames[0], ip_sets[0], num_matched, output_videos[0], argss[0])
                 img2, output_videos[1] = show_tracked_img(dict_frames[1], ip_sets[1], num_matched, output_videos[1], argss[1])
